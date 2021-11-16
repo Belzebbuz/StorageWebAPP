@@ -17,42 +17,7 @@ namespace StorageWebAPP.Models
         public StorageContext(DbContextOptions<StorageContext> options)
             : base(options)
         {
-            
-        }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<AccountModel>(entity =>
-                {
-                    entity.HasKey(x => x.Id);
-                    entity.Property(x => x.Name);
-
-                    entity.HasData(new AccountModel { Id = 1, Name = "General manager" });
-                });
-            modelBuilder.Entity<NomenclatureModel>(entity =>
-            {
-                entity.HasKey(x => x.Id);
-                entity.Property(x => x.Name);
-                entity.Property(x => x.Measure);
-            });
-            modelBuilder.Entity<MovementTypeModel>(entity =>
-            {
-                entity.HasKey(x => x.Id);
-                entity.Property(x => x.Name);
-
-                entity.HasData(new MovementTypeModel { Id = 1, Name = "Obtaining" });
-                entity.HasData(new MovementTypeModel { Id = 2, Name = "Consumption" });
-            });
-
-            modelBuilder.Entity<BalanceModel>(entity =>
-            {
-                entity.HasKey(x => x.Id);
-                entity.Property(x => x.Date);
-                entity.Property(x => x.NomenclatureId);
-                entity.Property(x => x.ResponsibleId);
-                entity.Property(x => x.Count);
-                entity.Property(x => x.MovementTypeId);
-            });
+            Database.EnsureCreated();
         }
     }
 }
