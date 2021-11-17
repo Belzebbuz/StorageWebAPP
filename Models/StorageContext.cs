@@ -9,12 +9,14 @@ namespace StorageWebAPP.Models
 {
     public class StorageContext: DbContext
     {
-        public DbSet<AccountModel>? Accounts { get; set; }
+        public DbSet<Account>? Accounts { get; set; }
+        public DbSet<Nomenclature>? Nomenclatures { get; set; }
+        public DbSet<Operation>? Operations { get; set;}
 
         public StorageContext(DbContextOptions<StorageContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
+            
         }
     }
 }

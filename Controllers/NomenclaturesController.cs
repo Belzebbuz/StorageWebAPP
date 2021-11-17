@@ -11,47 +11,47 @@ namespace StorageWebAPP.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountsController : ControllerBase
+    public class NomenclaturesController : ControllerBase
     {
         private readonly StorageContext _context;
 
-        public AccountsController(StorageContext context)
+        public NomenclaturesController(StorageContext context)
         {
             _context = context;
         }
 
-        // GET: api/AccountModels
+        // GET: api/Nomenclatures
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Account>>> GetAccounts()
+        public async Task<ActionResult<IEnumerable<Nomenclature>>> GetNomenclatures()
         {
-            return await _context.Accounts.ToListAsync();
+            return await _context.Nomenclatures.ToListAsync();
         }
 
-        // GET: api/AccountModels/5
+        // GET: api/Nomenclatures/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Account>> GetAccountModel(long id)
+        public async Task<ActionResult<Nomenclature>> GetNomenclature(int id)
         {
-            var accountModel = await _context.Accounts.FindAsync(id);
+            var nomenclature = await _context.Nomenclatures.FindAsync(id);
 
-            if (accountModel == null)
+            if (nomenclature == null)
             {
                 return NotFound();
             }
 
-            return accountModel;
+            return nomenclature;
         }
 
-        // PUT: api/AccountModels/5
+        // PUT: api/Nomenclatures/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAccountModel(long id, Account accountModel)
+        public async Task<IActionResult> PutNomenclature(int id, Nomenclature nomenclature)
         {
-            if (id != accountModel.Id)
+            if (id != nomenclature.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(accountModel).State = EntityState.Modified;
+            _context.Entry(nomenclature).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace StorageWebAPP.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AccountModelExists(id))
+                if (!NomenclatureExists(id))
                 {
                     return NotFound();
                 }
@@ -72,36 +72,36 @@ namespace StorageWebAPP.Controllers
             return NoContent();
         }
 
-        // POST: api/AccountModels
+        // POST: api/Nomenclatures
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Account>> PostAccountModel(Account accountModel)
+        public async Task<ActionResult<Nomenclature>> PostNomenclature(Nomenclature nomenclature)
         {
-            _context.Accounts.Add(accountModel);
+            _context.Nomenclatures.Add(nomenclature);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAccountModel", new { id = accountModel.Id }, accountModel);
+            return CreatedAtAction("GetNomenclature", new { id = nomenclature.Id }, nomenclature);
         }
 
-        // DELETE: api/AccountModels/5
+        // DELETE: api/Nomenclatures/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAccountModel(long id)
+        public async Task<IActionResult> DeleteNomenclature(int id)
         {
-            var accountModel = await _context.Accounts.FindAsync(id);
-            if (accountModel == null)
+            var nomenclature = await _context.Nomenclatures.FindAsync(id);
+            if (nomenclature == null)
             {
                 return NotFound();
             }
 
-            _context.Accounts.Remove(accountModel);
+            _context.Nomenclatures.Remove(nomenclature);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool AccountModelExists(long id)
+        private bool NomenclatureExists(int id)
         {
-            return _context.Accounts.Any(e => e.Id == id);
+            return _context.Nomenclatures.Any(e => e.Id == id);
         }
     }
 }

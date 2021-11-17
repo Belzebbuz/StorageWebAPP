@@ -11,47 +11,47 @@ namespace StorageWebAPP.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountsController : ControllerBase
+    public class OperationsController : ControllerBase
     {
         private readonly StorageContext _context;
 
-        public AccountsController(StorageContext context)
+        public OperationsController(StorageContext context)
         {
             _context = context;
         }
 
-        // GET: api/AccountModels
+        // GET: api/Operations
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Account>>> GetAccounts()
+        public async Task<ActionResult<IEnumerable<Operation>>> GetOperations()
         {
-            return await _context.Accounts.ToListAsync();
+            return await _context.Operations.ToListAsync();
         }
 
-        // GET: api/AccountModels/5
+        // GET: api/Operations/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Account>> GetAccountModel(long id)
+        public async Task<ActionResult<Operation>> GetOperation(int id)
         {
-            var accountModel = await _context.Accounts.FindAsync(id);
+            var operation = await _context.Operations.FindAsync(id);
 
-            if (accountModel == null)
+            if (operation == null)
             {
                 return NotFound();
             }
 
-            return accountModel;
+            return operation;
         }
 
-        // PUT: api/AccountModels/5
+        // PUT: api/Operations/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAccountModel(long id, Account accountModel)
+        public async Task<IActionResult> PutOperation(int id, Operation operation)
         {
-            if (id != accountModel.Id)
+            if (id != operation.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(accountModel).State = EntityState.Modified;
+            _context.Entry(operation).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace StorageWebAPP.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AccountModelExists(id))
+                if (!OperationExists(id))
                 {
                     return NotFound();
                 }
@@ -72,36 +72,38 @@ namespace StorageWebAPP.Controllers
             return NoContent();
         }
 
-        // POST: api/AccountModels
+        // POST: api/Operations
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Account>> PostAccountModel(Account accountModel)
+        public async Task<ActionResult<Operation>> PostOperation([FromBody]Operation operation)
         {
-            _context.Accounts.Add(accountModel);
+            _context.Attach(operation.Account);
+            _context.Attach(operation.Nomenclature);
+            _context?.Operations?.Add(operation);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAccountModel", new { id = accountModel.Id }, accountModel);
+            return CreatedAtAction("GetOperation", new { id = operation.Id }, operation);
         }
 
-        // DELETE: api/AccountModels/5
+        // DELETE: api/Operations/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAccountModel(long id)
+        public async Task<IActionResult> DeleteOperation(int id)
         {
-            var accountModel = await _context.Accounts.FindAsync(id);
-            if (accountModel == null)
+            var operation = await _context.Operations.FindAsync(id);
+            if (operation == null)
             {
                 return NotFound();
             }
 
-            _context.Accounts.Remove(accountModel);
+            _context.Operations.Remove(operation);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool AccountModelExists(long id)
+        private bool OperationExists(int id)
         {
-            return _context.Accounts.Any(e => e.Id == id);
+            return _context.Operations.Any(e => e.Id == id);
         }
     }
 }
