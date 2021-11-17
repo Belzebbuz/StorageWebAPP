@@ -11,9 +11,6 @@ namespace StorageWebAPP.Models
     {
         public DbSet<AccountModel>? Accounts { get; set; }
 
-        public DbSet<NomenclatureModel>? Nomenclature { get; set; }
-        public DbSet<MovementTypeModel>? MovementType { get; set;}
-        public DbSet<BalanceModel>? Balance { get; set; }
         public StorageContext(DbContextOptions<StorageContext> options)
             : base(options)
         {
