@@ -40,6 +40,18 @@ namespace StorageWebAPP.Controllers
 
             return operation;
         }
+        [HttpGet("{accountId}/{operationType}")]
+        public async Task<ActionResult<List<Operation>>> GetOperation(int accountId, OperationTypes operationType)
+        {
+            var operation = await _context.Operations.Where(x => x.Account.Id == accountId && x.OperationType == operationType).ToListAsync();
+
+            if (operation == null)
+            {
+                return NotFound();
+            }
+
+            return operation;
+        }
 
         // PUT: api/Operations/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
